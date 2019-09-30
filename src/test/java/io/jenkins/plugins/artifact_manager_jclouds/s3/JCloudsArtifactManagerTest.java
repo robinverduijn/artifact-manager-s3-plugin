@@ -297,7 +297,7 @@ public class JCloudsArtifactManagerTest extends S3AbstractTest {
             grant(Item.READ).onFolders(d).to("dev2"));
         WorkflowJob p = d.createProject(WorkflowJob.class, "p");
         p.setDefinition(new CpsFlowDefinition("node {writeFile file: 'f.txt', text: ''; archiveArtifacts 'f.txt'}", true));
-        WorkflowRun b = j.buildAndAssertSuccess(p);
+        j.buildAndAssertSuccess(p);
         String url = "job/d/job/p/1/api/json?tree=artifacts[relativePath]";
         String jsonType = "application/json";
         String snippet = "\"relativePath\":\"f.txt\"";
