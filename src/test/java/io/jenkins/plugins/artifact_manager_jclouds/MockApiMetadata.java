@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.apis.internal.BaseApiMetadata;
@@ -64,8 +63,6 @@ import org.kohsuke.MetaInfServices;
  */
 @MetaInfServices(ApiMetadata.class)
 public final class MockApiMetadata extends BaseApiMetadata {
-
-    private static final Logger LOGGER = Logger.getLogger(MockApiMetadata.class.getName());
 
     public MockApiMetadata() {
         this(new Builder());
