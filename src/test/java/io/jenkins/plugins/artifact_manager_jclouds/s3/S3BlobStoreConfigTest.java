@@ -133,6 +133,8 @@ public class S3BlobStoreConfigTest {
         api.shutdown();
     }
     private static final class PhonySessionCredentials extends BaseAmazonWebServicesCredentials {
+        private static final long serialVersionUID = -5945576657052034201L;
+
         PhonySessionCredentials(CredentialsScope scope, String id, String description) {
             super(scope, id, description);
         }

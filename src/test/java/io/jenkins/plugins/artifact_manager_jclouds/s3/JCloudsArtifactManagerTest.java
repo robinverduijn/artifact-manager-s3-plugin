@@ -116,6 +116,8 @@ public class JCloudsArtifactManagerTest extends S3AbstractTest {
     }
 
     private static final class CustomPrefixBlobStoreProvider extends BlobStoreProvider {
+        private static final long serialVersionUID = -4101048616339233760L;
+
         private final BlobStoreProvider delegate;
         private final String prefix;
         private final Boolean deleteArtifacts, deleteStashes;
@@ -198,6 +200,8 @@ public class JCloudsArtifactManagerTest extends S3AbstractTest {
     }
 
     private static final class LoadS3Credentials extends MasterToSlaveCallable<Void, RuntimeException> {
+        private static final long serialVersionUID = -8381903154876734425L;
+
         @Override
         public Void call() {
             AmazonS3ClientBuilder.standard().build();

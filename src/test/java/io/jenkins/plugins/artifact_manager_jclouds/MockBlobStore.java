@@ -56,6 +56,7 @@ import org.jclouds.blobstore.domain.StorageMetadata;
  * Allows tests to inject failures such as HTTP errors or hangs.
  */
 public final class MockBlobStore extends BlobStoreProvider {
+    private static final long serialVersionUID = 168915608470054130L;
 
     private static final Logger LOGGER = Logger.getLogger(MockBlobStore.class.getName());
 
