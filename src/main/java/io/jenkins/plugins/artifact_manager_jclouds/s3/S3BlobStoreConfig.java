@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
