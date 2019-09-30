@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Handler;
@@ -69,7 +70,7 @@ public class JCloudsVirtualFileTest extends S3AbstractTest {
     @Override
     public void setup() throws Exception {
         tmpFile = tmp.newFile();
-        FileUtils.writeStringToFile(tmpFile, "test");
+        FileUtils.writeStringToFile(tmpFile, "test", Charset.defaultCharset());
         filePath = getPrefix() + tmpFile.getName();
         Blob blob = blobStore.blobBuilder(filePath).payload(tmpFile).build();
 
@@ -241,7 +242,8 @@ public class JCloudsVirtualFileTest extends S3AbstractTest {
             // expected
         }
         try (InputStream is = vf.open()) {
-            assertEquals(FileUtils.readFileToString(tmpFile), IOUtils.toString(is));
+            Charset charset = Charset.defaultCharset();
+            assertEquals(FileUtils.readFileToString(tmpFile, charset), IOUtils.toString(is, charset));
         }
     }
 
