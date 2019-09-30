@@ -64,10 +64,8 @@ public class S3BlobStoreConfig extends AbstractAwsGlobalConfiguration {
     private static final String BUCKET_REGEXP = "^([a-z]|(\\d(?!\\d{0,2}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})))([a-z\\d]|(\\.(?!(\\.|-)))|(-(?!\\.))){1,61}[a-z\\d\\.]$";
     private static final Pattern bucketPattern = Pattern.compile(BUCKET_REGEXP);
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static boolean DELETE_ARTIFACTS = Boolean.getBoolean(S3BlobStoreConfig.class.getName() + ".deleteArtifacts");
-    @SuppressWarnings("FieldMayBeFinal")
-    private static boolean DELETE_STASHES = Boolean.getBoolean(S3BlobStoreConfig.class.getName() + ".deleteStashes");
+    private static final boolean DELETE_ARTIFACTS = Boolean.getBoolean(S3BlobStoreConfig.class.getName() + ".deleteArtifacts");
+    private static final boolean DELETE_STASHES = Boolean.getBoolean(S3BlobStoreConfig.class.getName() + ".deleteStashes");
 
     /**
      * Name of the S3 Bucket.
