@@ -38,7 +38,6 @@ import hudson.util.DirScanner;
 import hudson.util.io.ArchiverFactory;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import io.jenkins.plugins.artifact_manager_jclouds.BlobStoreProvider.HttpMethod;
-import io.jenkins.plugins.httpclient.RobustHTTPClient;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,7 +76,7 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
 
     private static final Logger LOGGER = Logger.getLogger(JCloudsArtifactManager.class.getName());
 
-    static RobustHTTPClient client = new RobustHTTPClient();
+    static RobustHTTPClientEx client = new RobustHTTPClientEx();
 
     private final BlobStoreProvider provider;
 
@@ -137,7 +136,7 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
         private final Map<String, URL> artifactUrls; // e.g. "target/x.war", "http://..."
         private final TaskListener listener;
         // Bind when constructed on the master side; on the agent side, deserialize the same configuration.
-        private final RobustHTTPClient client = JCloudsArtifactManager.client;
+        private final RobustHTTPClientEx client = JCloudsArtifactManager.client;
 
         UploadToBlobStorage(Map<String, URL> artifactUrls, TaskListener listener) {
             this.artifactUrls = artifactUrls;
@@ -193,7 +192,7 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
         private final boolean allowEmpty;
         private final String tempDir;
         private final TaskListener listener;
-        private final RobustHTTPClient client = JCloudsArtifactManager.client;
+        private final RobustHTTPClientEx client = JCloudsArtifactManager.client;
 
         Stash(URL url, URI uri, String includes, String excludes, boolean useDefaultExcludes, boolean allowEmpty, String tempDir, TaskListener listener) throws IOException {
             /** Actual destination as a presigned URL. */
@@ -255,7 +254,7 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
         private static final long serialVersionUID = 1L;
         private final URL url;
         private final TaskListener listener;
-        private final RobustHTTPClient client = JCloudsArtifactManager.client;
+        private final RobustHTTPClientEx client = JCloudsArtifactManager.client;
 
         Unstash(URL url, TaskListener listener) throws IOException {
             this.url = url;
@@ -265,7 +264,7 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
         @Override
         public Void invoke(File f, VirtualChannel channel) throws IOException, InterruptedException {
             try {
-                client.connect("download", "download " + RobustHTTPClient.sanitize(url) + " into " + f, c -> c.execute(new HttpGet(url.toString())), response -> {
+                client.connect("download", "download " + RobustHTTPClientEx.sanitize(url) + " into " + f, c -> c.execute(new HttpGet(url.toString())), response -> {
                     try (InputStream is = response.getEntity().getContent()) {
                         new FilePath(f).untarFrom(is, FilePath.TarCompression.GZIP);
                         // Note that this API currently offers no count of files in the tarball we could report.

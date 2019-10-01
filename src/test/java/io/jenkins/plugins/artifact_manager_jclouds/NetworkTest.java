@@ -28,7 +28,6 @@ import com.google.common.base.Throwables;
 import hudson.model.Result;
 import hudson.model.Run;
 import hudson.tasks.LogRotator;
-import io.jenkins.plugins.httpclient.RobustHTTPClient;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -131,7 +130,7 @@ public class NetworkTest {
     @Test
     public void repeatedRecoverableErrorArchiving() throws Exception {
         WorkflowJob p = r.createProject(WorkflowJob.class, "p");
-        JCloudsArtifactManager.client = new RobustHTTPClient();
+        JCloudsArtifactManager.client = new RobustHTTPClientEx();
         JCloudsArtifactManager.client.setStopAfterAttemptNumber(3);
         try {
             failIn(BlobStoreProvider.HttpMethod.PUT, "p/1/artifacts/f", 500, 3);
@@ -142,14 +141,14 @@ public class NetworkTest {
             r.assertLogContains("Retrying upload", b);
             r.assertLogNotContains("\tat hudson.tasks.ArtifactArchiver.perform", b);
         } finally {
-            JCloudsArtifactManager.client = new RobustHTTPClient();
+            JCloudsArtifactManager.client = new RobustHTTPClientEx();
         }
     }
 
     @Test
     public void hangArchiving() throws Exception {
         WorkflowJob p = r.createProject(WorkflowJob.class, "p");
-        JCloudsArtifactManager.client = new RobustHTTPClient();
+        JCloudsArtifactManager.client = new RobustHTTPClientEx();
         JCloudsArtifactManager.client.setTimeout(5, TimeUnit.SECONDS);
         try {
             hangIn(BlobStoreProvider.HttpMethod.PUT, "p/1/artifacts/f");
@@ -164,7 +163,7 @@ public class NetworkTest {
             r.assertLogContains("Retrying upload", b);
             r.assertLogNotContains("\tat hudson.tasks.ArtifactArchiver.perform", b);
         } finally {
-            JCloudsArtifactManager.client = new RobustHTTPClient();
+            JCloudsArtifactManager.client = new RobustHTTPClientEx();
         }
     }
 
@@ -225,7 +224,7 @@ public class NetworkTest {
     @Test
     public void repeatedRecoverableErrorUnstashing() throws Exception {
         WorkflowJob p = r.createProject(WorkflowJob.class, "p");
-        JCloudsArtifactManager.client = new RobustHTTPClient();
+        JCloudsArtifactManager.client = new RobustHTTPClientEx();
         JCloudsArtifactManager.client.setStopAfterAttemptNumber(3);
         try {
             failIn(BlobStoreProvider.HttpMethod.GET, "p/1/stashes/f.tgz", 500, 3);
@@ -237,14 +236,14 @@ public class NetworkTest {
             r.assertLogContains("Retrying download", b);
             r.assertLogNotContains("\tat org.jenkinsci.plugins.workflow.flow.StashManager.unstash", b);
         } finally {
-            JCloudsArtifactManager.client = new RobustHTTPClient();
+            JCloudsArtifactManager.client = new RobustHTTPClientEx();
         }
     }
 
     @Test
     public void hangUnstashing() throws Exception {
         WorkflowJob p = r.createProject(WorkflowJob.class, "p");
-        JCloudsArtifactManager.client = new RobustHTTPClient();
+        JCloudsArtifactManager.client = new RobustHTTPClientEx();
         JCloudsArtifactManager.client.setTimeout(5, TimeUnit.SECONDS);
         try {
             hangIn(BlobStoreProvider.HttpMethod.GET, "p/1/stashes/f.tgz");
@@ -258,7 +257,7 @@ public class NetworkTest {
             r.assertLogContains("Retrying download", b);
             r.assertLogNotContains("\tat org.jenkinsci.plugins.workflow.flow.StashManager.unstash", b);
         } finally {
-            JCloudsArtifactManager.client = new RobustHTTPClient();
+            JCloudsArtifactManager.client = new RobustHTTPClientEx();
         }
     }
 
