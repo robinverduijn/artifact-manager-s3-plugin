@@ -208,9 +208,16 @@ public class RobustHTTPClientEx implements Serializable {// extends RobustHTTPCl
      * Upload a file to a URL.
      */
     public void uploadFile(File f, URL url, TaskListener listener) throws IOException, InterruptedException {
+        uploadFile(f, null, url, listener);
+    }
+
+    public void uploadFile(File f, String contentType, URL url, TaskListener listener) throws IOException, InterruptedException {
         connect("upload", "upload " + f + " to " + sanitize(url), client -> {
             HttpPut put = new HttpPut(url.toString());
             put.setEntity(new FileEntity(f));
+            if (contentType != null) {
+                put.setHeader("Content-Type", contentType);
+            }
             return client.execute(put);
         }, response -> {}, listener);
     }
