@@ -203,11 +203,8 @@ public class S3BlobStore extends BlobStoreProvider {
 
         GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(container, name)
             .withExpiration(expiration)
-            .withMethod(awsMethod);
-
-        if (contentType != null) {
-            generatePresignedUrlRequest.setContentType(contentType);
-        }
+            .withMethod(awsMethod)
+            .withContentType(contentType);
 
         return builder.build().generatePresignedUrl(generatePresignedUrlRequest);
     }
