@@ -166,7 +166,7 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
         private static final long serialVersionUID = 1L;
 
         private final Map<String, URL> artifactUrls; // e.g. "target/x.war", "http://..."
-        private final Map<String, String> contentTypes;
+        private final Map<String, String> contentTypes; // e.g. "target/x.zip, "application/zip"
         private final TaskListener listener;
         // Bind when constructed on the master side; on the agent side, deserialize the same configuration.
         private final RobustHTTPClientEx client = JCloudsArtifactManager.client;
