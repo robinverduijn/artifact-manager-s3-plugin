@@ -148,14 +148,15 @@ public final class JCloudsArtifactManager extends ArtifactManager implements Sta
 
         @Override
         public String invoke(File f, VirtualChannel channel) {
+            File theFile = new File(f, relPath);
             try {
-                File theFile = new File(f, relPath);
                 String contentType = Files.probeContentType(theFile.toPath());
                 if (null == contentType) {
                     contentType = URLConnection.guessContentTypeFromName(theFile.getName());
                 }
                 return contentType;
             } catch (IOException e) {
+                LOGGER.log(Level.FINE, "Unable to determine content type for file: " + theFile, e);
                 return null;
             }
         }
